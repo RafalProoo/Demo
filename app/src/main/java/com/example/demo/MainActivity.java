@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Credentials;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,9 +32,23 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
+        //logowanie trzeba zrobić odpowiednie akcje na response.body() linia 44
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Call<Boolean> call = jsonPlaceHolderApi.login(new UserLoginDto("a@","x"));
+
+                call.enqueue(new Callback<Boolean>() {
+                    @Override
+                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                        System.out.println(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<Boolean> call, Throwable t) {
+
+                    }
+                });
 
                 //Działa POST
 //                Call<UserDto> call = jsonPlaceHolderApi.createUser(new UserDto("Ala", "Kot", "alakot", "qweewq"));
@@ -57,26 +72,26 @@ public class MainActivity extends AppCompatActivity {
 //                });
 
                 //Działa GET
-                Call<List<User>> call = jsonPlaceHolderApi.getUsers();
-                call.enqueue(new Callback<List<User>>() {
-
-                    @Override
-                    public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                        if (!response.isSuccessful()) {
-                            System.out.println(response.code());
-                            return;
-                        }
-                        List<User> post = response.body();
-                        ArrayList<User> tmp = new ArrayList<User>(post);
-                        System.out.println(tmp);
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<User>> call, Throwable t) {
-                        System.out.println(t);
-                    }
-                });
-
+//                Call<List<User>> call = jsonPlaceHolderApi.getUsers();
+//                call.enqueue(new Callback<List<User>>() {
+//
+//                    @Override
+//                    public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+//                        if (!response.isSuccessful()) {
+//                            System.out.println(response.code());
+//                            return;
+//                        }
+//                        List<User> post = response.body();
+//                        ArrayList<User> tmp = new ArrayList<User>(post);
+//                        System.out.println(tmp);
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<List<User>> call, Throwable t) {
+//                        System.out.println(t);
+//                    }
+//                });
+//
             }
         });
 

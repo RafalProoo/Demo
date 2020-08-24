@@ -24,4 +24,7 @@ public interface JsonPlaceHolderApi {
     @POST("/users/registration")
     Call<UserDto> createUser(@Body UserDto userDto);
 
+    @POST("/users/login")
+    Call<Boolean> login(@Body UserLoginDto userLoginDto);
+
 }
